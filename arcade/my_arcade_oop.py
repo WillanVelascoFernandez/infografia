@@ -1,23 +1,23 @@
 from my_hello_arcade import draw_paint
 import arcade
 
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 825
+SCREEN_TITLE = "My Arcade Class"
+
 
 class Hola(arcade.Window):
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
+    def __init__(self):
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.color.GRAY)
-        self.width = width
-        self.height = height
 
     def on_draw(self):
         arcade.start_render()
-        draw_paint(self.width, self.height)
+        draw_paint(SCREEN_WIDTH, SCREEN_HEIGHT)
         arcade.finish_render()
 
 
 if __name__ == "__main__":
-    SCREEN_WIDTH = 1000
-    SCREEN_HEIGHT = 800
-    SCREEN_TITLE = "My Arcade Class"
-    app = Hola(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+
+    app = Hola()
     app.run()

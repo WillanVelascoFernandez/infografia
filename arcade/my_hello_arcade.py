@@ -1,5 +1,8 @@
 import arcade
 
+SCREEN_WIDTH = 700
+SCREEN_HEIGHT = 700
+SCREEN_TITLE = "My paint"
 
 RED = arcade.color.RED
 ORANGE_RED = arcade.color.ORANGE_RED
@@ -45,9 +48,7 @@ def draw_paint(screen__width, screen__height):
 
 
 if __name__ == "__main__":
-    SCREEN_WIDTH = 200
-    SCREEN_HEIGHT = 200
-    SCREEN_TITLE = "My paint"
+
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
     arcade.set_background_color(arcade.color.WHITE)
