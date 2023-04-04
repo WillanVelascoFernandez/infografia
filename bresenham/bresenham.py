@@ -1,5 +1,13 @@
 def get_line(x0, y0, x1, y1):
     points = []  # lista para almacenar puntos generados
+    if (x0 > x1 and y0 < y1):
+        xx = x0
+        x0 = x1
+        x1 = xx
+        yy = y0
+        y0 = y1
+        y1 = yy
+
     # 1er paso: dx, dy
     dx = x1 - x0
     dy = y1 - y0
@@ -11,6 +19,7 @@ def get_line(x0, y0, x1, y1):
     if dy < 0:
         dy = -1 * dy
         y_inc = -1
+
     # 2do paso: parametro de decision Pk
     Pk = 2 * dy - dx
 
@@ -24,10 +33,10 @@ def get_line(x0, y0, x1, y1):
             Pk += 2 * dy
         else:
             Pk += 2 * dy - 2 * dx
-            yk += 1
+            yk += y_inc
 
     return points
 
 
 if __name__ == "__main__":
-    print(get_line(0, 3, 6, 5))
+    print(get_line(20, 10, 0, 30))
