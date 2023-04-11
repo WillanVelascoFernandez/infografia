@@ -1,3 +1,4 @@
+import random
 import arcade
 from pared import Pared
 from pelota import Pelota
@@ -6,47 +7,69 @@ from player import Player
 # definicion de constantes
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Pin Pon"
+SCREEN_TITLE = "Ping Pong Retro"
 
 
 class TransformWindow(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         arcade.set_background_color(arcade.color.BLACK)
-        self.pared_arriba = None
-        self.pared_abajo = None
-        self.pared_izquierda = None
-        self.pared_derecha = None
-        self.pelota = None
-        self.player1 = None
-        self.player2 = None
+        self.sprites = None
+        self.paredes = None
+        self.pelotas = None
+        self.goals = None
+        self.players = None
         self.keys_pressed = set()
 
     def setup(self):
-        self.pared_arriba = Pared(50, SCREEN_HEIGHT-80,
-                                  SCREEN_WIDTH-50, SCREEN_HEIGHT-80)
-        self.pared_abajo = Pared(50, 50, SCREEN_WIDTH-50, 50)
+        self.sprites = arcade.SpriteList()
+        self.pelotas = arcade.SpriteList()
+        self.paredes = arcade.SpriteList()
+        self.goals = arcade.SpriteList()
+        self.players = arcade.SpriteList()
 
-        self.pared_izquierda = Pared(
-            50, 50, 50, SCREEN_HEIGHT-80, arcade.color.BLUE)
-        self.pared_derecha = Pared(SCREEN_WIDTH-50, 50,
-                                   SCREEN_WIDTH-50, SCREEN_HEIGHT-80, arcade.color.BLUE)
-        self.pelota = Pelota(SCREEN_WIDTH/2,
-                             ((SCREEN_HEIGHT-80)+50)/2, 15, 5)
-        self.player1 = Player(80, ((SCREEN_HEIGHT-80)+50)/2, 30, 100)
-        self.player2 = Player(
-            SCREEN_WIDTH-80, ((SCREEN_HEIGHT-80)+50)/2, 30, 100)
+        pared_arriba = Pared(SCREEN_WIDTH-100, 5, arcade.color.RED,
+                             (SCREEN_WIDTH/2), (SCREEN_HEIGHT - 80))
+        self.paredes.append(pared_arriba)
+        self.sprites.append(pared_arriba)
+
+        pared_abajo = Pared(SCREEN_WIDTH-100, 5,
+                            arcade.color.RED, (SCREEN_WIDTH/2), (50))
+        self.paredes.append(pared_abajo)
+        self.sprites.append(pared_abajo)
+
+        goal_izquierda = Pared(
+            5, (SCREEN_HEIGHT-80-50), arcade.color.BLUE, (50), (((SCREEN_HEIGHT-80)+50)/2))
+        self.goals.append(goal_izquierda)
+        self.sprites.append(goal_izquierda)
+
+        goal_derecha = Pared(5, (SCREEN_HEIGHT-80-50), arcade.color.BLUE,
+                             (SCREEN_WIDTH-50), (((SCREEN_HEIGHT-80)+50)/2))
+        self.goals.append(goal_derecha)
+        self.sprites.append(goal_derecha)
+
+        pelota = Pelota("sprites/disco.png", 0.08, SCREEN_WIDTH/2,
+                        ((SCREEN_HEIGHT-80)+50)/2)
+        self.pelotas.append(pelota)
+        self.sprites.append(pelota)
+
+        player1 = Player(30, 100, arcade.color.GREEN,
+                         80, (((SCREEN_HEIGHT-80)+50)/2))
+        self.players.append(player1)
+        self.sprites.append(player1)
+
+        player2 = Player(30, 100, arcade.color.GREEN,
+                         (SCREEN_WIDTH-80), (((SCREEN_HEIGHT-80)+50)/2))
+        self.players.append(player2)
+        self.sprites.append(player2)
+
+        # self.player1 = Player(80, ((SCREEN_HEIGHT-80)+50)/2, 30, 100)
+        # self.player2 = Player(
+        #     SCREEN_WIDTH-80, ((SCREEN_HEIGHT-80)+50)/2, 30, 100)
 
     def on_draw(self):
         arcade.start_render()
-        self.pared_arriba.draw()
-        self.pared_abajo.draw()
-        self.pared_izquierda.draw()
-        self.pared_derecha.draw()
-        self.pelota.draw()
-        self.player1.draw()
-        self.player2.draw()
-        arcade.draw_text(f"{self.player1.score}/{self.player2.score}",
+        arcade.draw_text(f"{0}/{0}",
                          0,
                          SCREEN_HEIGHT-40,
                          arcade.color.YELLOW,
@@ -54,18 +77,11 @@ class TransformWindow(arcade.Window):
                          width=SCREEN_WIDTH,
                          align="center"
                          )
+        self.sprites.draw()
         arcade.finish_render()
 
     def update(self, delta_time):
-
-        if arcade.key.W in self.keys_pressed:
-            self.player1.center_y += self.player1.movement
-        elif arcade.key.S in self.keys_pressed:
-            self.player1.center_y -= self.player1.movement
-        if arcade.key.UP in self.keys_pressed:
-            self.player2.center_y += self.player2.movement
-        elif arcade.key.DOWN in self.keys_pressed:
-            self.player2.center_y -= self.player2.movement
+        self.sprites.update()
 
     def on_key_press(self, key, modifiers):
         self.keys_pressed.add(key)
