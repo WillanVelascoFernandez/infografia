@@ -5,7 +5,7 @@ import arcade
 class Pelota(arcade.Sprite):
     def __init__(self, image, scale, center_x, center_y):
         super().__init__(image, scale, center_x=center_x, center_y=center_y)
-        self.speed = 1
+        self.speed = 1.2
         self.change_x = random.choice([-4, -3, -2, 4, 3, 2])
         self.change_y = random.choice([-4, -3, -2, 4, 3, 2])
 
