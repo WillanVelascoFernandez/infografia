@@ -71,7 +71,7 @@ class TransformWindow(arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_text(f"{self.player1.score}/{self.player2.score}",
+        arcade.draw_text(f"{self.player2.score}/{self.player1.score}",
                          0,
                          SCREEN_HEIGHT-60,
                          arcade.color.YELLOW,
